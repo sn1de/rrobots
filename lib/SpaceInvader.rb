@@ -155,7 +155,7 @@ class SpaceInvader
     fire(0.2)
     turn_gun(@target_sector.fire_next - gun_heading)
     @fire_counter += 1
-    if @fire_counter < 40
+    if @fire_counter < 50
       @next_actions_queue << :unleash_heck
     else
       @fire_counter = 0
