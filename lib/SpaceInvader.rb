@@ -34,7 +34,6 @@ class SpaceInvader
   include Robot
 
   def initialize
-    puts "Initializing Space Invader"
     @action_queue = [
       :head_down
     ]
@@ -138,13 +137,10 @@ class SpaceInvader
   end
   
   def aim(events)
-    puts "Assuming firing position... move from #{gun_heading} to #{@target_sector.range.first}"
-    
     if gun_heading == @target_sector.range.first
       @next_actions_queue << :unleash_heck
     else
       t = @target_sector.range.first - gun_heading
-      puts "Turning gun by #{t}"
       turn_gun(t)
       @next_actions_queue << :aim
     end
@@ -182,7 +178,6 @@ class SpaceInvader
   end
   
   def roam(events)
-    puts "Moving. Current position #{x}, size #{size}, speed #{speed}"
     if x >= battlefield_width - size - 300
       @roam_accel = 1
     elsif x <= size + 300
@@ -207,14 +202,11 @@ class SpaceInvader
   end
 
   def radar_to_sector
-    puts "radar_to_sector radar_heading=#{radar_heading} move to #{@sectors[@scan_sector_idx].range.first}"
     if radar_heading == @sectors[@scan_sector_idx].range.first
       scan_sweep = @sectors[@scan_sector_idx].range.last - @sectors[@scan_sector_idx].range.first
-      puts "radar set, turning to scan by #{scan_sweep}"
       turn_radar(scan_sweep)
       @next_actions_queue << :check_enemies
     else
-      puts "moving radar by #{@sectors[@scan_sector_idx].range.first - radar_heading}"
       distance_from_sector = @sectors[@scan_sector_idx].range.first - radar_heading 
       turn_radar distance_from_sector > 60 ? 60 : distance_from_sector
       @next_actions_queue << :roam
@@ -222,7 +214,6 @@ class SpaceInvader
   end
   
   def check_enemies
-    puts "Checking for enemies in sector #{@scan_sector_idx}"
     if !events['robot_scanned'].empty?
       closest = 99999
       for distance in events['robot_scanned'].flatten.sort
@@ -256,14 +247,12 @@ class SpaceInvader
     else
       @scan_sector_idx = 0
     end
-    puts "Now scanning #{@scan_sector_idx}"
   end
   
   def set_target_sector
     @target_sector = nil
 
     @sectors.each { | sector |
-      puts "Checking sector #{sector.name} enemies #{sector.enemies} closest #{sector.closest_enemy}"
       if sector.enemies == true
         if @target_sector == nil
           @target_sector = sector
@@ -274,12 +263,6 @@ class SpaceInvader
         end
       end
     }
-
-    if @target_sector == nil
-      puts "No enemy activity detected"
-    else
-      puts "Targeting locked in on sector #{@target_sector.name}"
-    end
   end
   
   def dump_scan
