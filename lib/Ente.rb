@@ -1,4 +1,4 @@
-require 'robot'
+require_relative 'rrobots/robot.rb'
 
 class << Module.new # anonymous container
 
