@@ -47,13 +47,26 @@ class SpaceInvader
     
     @roam_accel = 1
     @sectors = [
-      Sector.new(0..29, "alpha"),
-      Sector.new(30..59, "bravo"),
-      Sector.new(60..89, "charlie"),
-      Sector.new(90..119, "delta"),
-      Sector.new(120..149, "echo"),
-      Sector.new(150..180, "foxtrot")
+      Sector.new(0..19, "alpha"),
+      #Sector.new(10..19, "bravo"),
+      Sector.new(20..39, "charlie"),
+      #Sector.new(30..39, "delta"),
+      Sector.new(40..59, "echo"),
+      #Sector.new(50..59, "foxtrot"),
+      Sector.new(60..79, "golf"),
+      #Sector.new(70..79, "hotel"),
+      Sector.new(80..99, "irene"),
+      #Sector.new(90..99, "j"),
+      Sector.new(100..119, "kilo"),
+      #Sector.new(110..119, "lima"),
+      Sector.new(120..139, "m"),
+      #Sector.new(130..139, "n"),
+      Sector.new(140..159, "oscar"),
+      #Sector.new(150..159, "p"),
+      Sector.new(160..180, "q"),
+      #Sector.new(170..180, "r")
       ]
+      
     @gun_in_position = false
     @scan_sector_idx = 0
     @target_sector = nil
@@ -154,7 +167,7 @@ class SpaceInvader
     fire(0.3)
     turn_gun(@target_sector.fire_next - gun_heading)
     @fire_counter += 1
-    if @fire_counter < 100
+    if @fire_counter < 50
       @next_actions_queue << :unleash_heck
     else
       @fire_counter = 0
