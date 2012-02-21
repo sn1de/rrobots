@@ -47,24 +47,12 @@ class SpaceInvader
     
     @roam_accel = 1
     @sectors = [
-      Sector.new(0..19, "alpha"),
-      #Sector.new(10..19, "bravo"),
-      Sector.new(20..39, "charlie"),
-      #Sector.new(30..39, "delta"),
-      Sector.new(40..59, "echo"),
-      #Sector.new(50..59, "foxtrot"),
-      Sector.new(60..79, "golf"),
-      #Sector.new(70..79, "hotel"),
-      Sector.new(80..99, "irene"),
-      #Sector.new(90..99, "j"),
-      Sector.new(100..119, "kilo"),
-      #Sector.new(110..119, "lima"),
-      Sector.new(120..139, "m"),
-      #Sector.new(130..139, "n"),
-      Sector.new(140..159, "oscar"),
-      #Sector.new(150..159, "p"),
-      Sector.new(160..180, "q"),
-      #Sector.new(170..180, "r")
+      Sector.new(0..29, "alpha"),
+      Sector.new(30..59, "bravo"),
+      Sector.new(60..89, "charlie"),
+      Sector.new(90..119, "delta"),
+      Sector.new(120..149, "echo"),
+      Sector.new(150..180, "foxtrot")
       ]
       
     @gun_in_position = false
@@ -102,8 +90,8 @@ class SpaceInvader
           say "I'm lost!"
       end
     end
-    dump_scan
-    dump_sectors
+    #dump_scan
+    #dump_sectors
     @action_queue = @next_actions_queue
     @next_actions_queue = []
   end
@@ -142,7 +130,7 @@ class SpaceInvader
   def position(events)
     say "Positioning..."
     if heading == @due_west
-      @next_actions_queue << :radar_to_sector
+      @next_actions_queue << :roam
     else
       turn (heading - @due_west >= 10) ? -10 : @due_west - heading
       @next_actions_queue << :position
@@ -163,15 +151,15 @@ class SpaceInvader
   end
 
   def unleash_heck
-    puts "Firing at heading #{gun_heading}"
-    fire(0.3)
+    # puts "Firing at heading #{gun_heading}"
+    fire(0.2)
     turn_gun(@target_sector.fire_next - gun_heading)
     @fire_counter += 1
-    if @fire_counter < 50
+    if @fire_counter < 40
       @next_actions_queue << :unleash_heck
     else
       @fire_counter = 0
-      @next_actions_queue << :radar_to_sector
+      @next_actions_queue << :roam
     end
   end
   
@@ -194,13 +182,19 @@ class SpaceInvader
   end
   
   def roam(events)
-    if x >= battlefield_width - size - 5
+    puts "Moving. Current position #{x}, size #{size}, speed #{speed}"
+    if x >= battlefield_width - size - 300
       @roam_accel = 1
-    elsif x <= size
+    elsif x <= size + 300
       @roam_accel = -1
     end
     
-    accelerate(@roam_accel)
+    if speed <= 5 && @roam_accel == 1
+      accelerate(@roam_accel)
+    elsif speed >= -5 && @roam_accel == -1
+      accelerate(@roam_accel)
+    end
+    @next_actions_queue << :radar_to_sector
   end
   
   def scan(events)
@@ -223,7 +217,7 @@ class SpaceInvader
       puts "moving radar by #{@sectors[@scan_sector_idx].range.first - radar_heading}"
       distance_from_sector = @sectors[@scan_sector_idx].range.first - radar_heading 
       turn_radar distance_from_sector > 60 ? 60 : distance_from_sector
-      @next_actions_queue << :radar_to_sector
+      @next_actions_queue << :roam
     end 
   end
   
