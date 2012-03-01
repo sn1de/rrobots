@@ -11,19 +11,19 @@ class NesDuck
     @max_radar_scan = 30.0
     @radar_turned = false
     @min_distance = 0
-    @direction = 1
+    @direction = 9
     super
   end
 
   def tick events
     @direction = @min_distance - 175
     accelerate(@direction)
-    wturn = 180 - ((radar_heading-heading)%360) + @rt*0.5
+    wturn = 180 - ((radar_heading-heading)%360) + @rt*0.05
     wturn = [-10,[10,wturn].min].max
     turn wturn
     scan events
     turn_radar @rt - wturn
-    fire @direction > 0 ? 0.5 : 3.0
+    fire @direction > 0 ? 0.05 : 3.0
   end
 
   def scan events

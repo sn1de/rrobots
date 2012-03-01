@@ -5,10 +5,10 @@ class Frank_the_Tank
 
   def tick events
 
-      if events['robot_scanned'].empty? 
+   if events['robot_scanned'].empty? 
      turn_gun 8
    else    
-     fire 2
+     fire 1.5
      turn_gun -11
    end 
    

@@ -11,20 +11,22 @@ class Twitch
   def tick events   
       
    @passage_time = @passage_time + 1
-   if @passage_time < 150 
-     accelerate 8
-   elsif @passage_time > 300
+   if @passage_time < 100 
+     accelerate 4
+    # turn 1
+   elsif @passage_time > 200
      @passage_time = 0
    else
-     accelerate -8
+     accelerate -4
+    # turn -1
    end
    
-  # if @passage_time == 0
-  #   turn_radar 2
-  # elsif turn_radar 0
-  # else @passage_time == 150
-  #   turn_radar -2
-  # end
+   #if @passage_time == 0
+   #  turn 2
+   #elsif turn 0
+   #else @passage_time == 150
+   #  turn -2
+   #end
      
    if time == 0 
      @passage_time = 0
@@ -37,8 +39,8 @@ class Twitch
    if events['robot_scanned'].empty?  
      turn_gun 12
    else                               
-     fire 1
-     turn_gun -12
+     fire 1.5
+     turn_gun -8
    end 
    
   end

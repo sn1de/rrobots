@@ -13,10 +13,11 @@ class Jason
 		@lock_on_count = 0
 		@turn_amount = -10
 		@fire_power = 0.1
+		@min_distance = 1000
 	end
 	
 	def tick events
-#		cheat
+		#cheat
 		if @wait > 100
 			move1
 		else 
@@ -38,6 +39,10 @@ class Jason
 				@fire_power = 0.1
 			end
 		else
+			@min_distance = events['robot_scanned'].min.first
+			if (@min_distance < 400)
+				@fire_power = 2.0
+			end
 			fire 3.0
 			@locked_on = true
 			@lock_on_count = 10

@@ -51,7 +51,12 @@ class SpaceInvader
       Sector.new(60..89, "charlie"),
       Sector.new(90..119, "delta"),
       Sector.new(120..149, "echo"),
-      Sector.new(150..180, "foxtrot")
+      Sector.new(150..179, "foxtrot"),
+      Sector.new(180..209, "foxtrot"),
+      Sector.new(210..239, "foxtrot"),
+      Sector.new(240..269, "foxtrot"),
+      Sector.new(270..309, "foxtrot"),
+      Sector.new(310..360, "foxtrot")
       ]
       
     @gun_in_position = false
@@ -73,12 +78,8 @@ class SpaceInvader
           position(events)
         when :aim
           aim(events)
-#        when :fight
-#          fight(events)
         when :roam
           roam(events)
-#        when :scan
-#          scan(events)
         when :radar_to_sector
           radar_to_sector
         when :check_enemies
@@ -148,10 +149,10 @@ class SpaceInvader
 
   def unleash_heck
     # puts "Firing at heading #{gun_heading}"
-    fire(0.2)
+    fire(0.3)
     turn_gun(@target_sector.fire_next - gun_heading)
     @fire_counter += 1
-    if @fire_counter < 50
+    if @fire_counter < 40
       @next_actions_queue << :unleash_heck
     else
       @fire_counter = 0
@@ -159,36 +160,36 @@ class SpaceInvader
     end
   end
   
-  def fight(events)
-    turn_radar 1
-    if !events['robot_scanned'].empty?
-      @next_actions_queue << :roam
-      @next_actions_queue << :fight
-    else
-      dump_scan
-      if speed >= 2
-        stop
-      elsif speed < 2
-        @next_actions_queue << :roam
-      end
-      fire(0.1)
-      #turn_gun(@sectors[@gun_sector_idx].fire_next - gun_heading)
-      @next_actions_queue << :fight
-    end
-  end
-  
   def roam(events)
-    if x >= battlefield_width - size - 300
-      @roam_accel = 1
-    elsif x <= size + 300
-      @roam_accel = -1
+    if speed < 8
+      accelerate(1)
+    else
+      # check to see if we need to turn around
+      if x < 300 && heading != @due_east
+        t = (heading - @due_east) * -1
+        puts "Turning east heading= #{heading} turning=#{t}"
+        turn(t)
+      elsif x > (battlefield_width - 300) && heading != @due_west
+        if heading == 0 
+          t = -10
+        else
+          t = (@due_west - heading)
+        end
+        puts "Turning west heading= #{heading} turning=#{t}"
+        turn(t)
+      end
     end
-    
-    if speed <= 5 && @roam_accel == 1
-      accelerate(@roam_accel)
-    elsif speed >= -5 && @roam_accel == -1
-      accelerate(@roam_accel)
-    end
+#    if x >= battlefield_width - size - 300
+#      @roam_accel = 1
+#    elsif x <= size + 300
+#      @roam_accel = -1
+#    end
+#    
+#    if speed <= 5 && @roam_accel == 1
+#      accelerate(@roam_accel)
+#    elsif speed >= -5 && @roam_accel == -1
+#      accelerate(@roam_accel)
+#    end
     @next_actions_queue << :radar_to_sector
   end
   
