@@ -66,6 +66,12 @@ want more precision you have to turn your radar slower.
 RRobots is implemented in pure ruby using a Gosu ui and should run on all
 platforms that have ruby and Gosu.
 
+== Installation
+
+You'll need to install the gosu gem:
+
+  gem install gosu
+
 == Usage
 
 To start a match call:
@@ -91,3 +97,7 @@ The names of the rb files have to match the class names of the robots.
 
 Each robot is matched against each other 1on1. The results are available 
 as yaml or html files.
+
+Sample command to start a match:
+
+  ruby -Ilib bin/rrobots lib/SpaceInvader.rb lib/SporkBot.rb lib/Killer.2.0.rb lib/RubberDuck.rb lib/Ente.rb
