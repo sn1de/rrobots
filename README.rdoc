@@ -101,3 +101,13 @@ as yaml or html files.
 Sample command to start a match:
 
   ruby -Ilib bin/rrobots lib/SpaceInvader.rb lib/SporkBot.rb lib/Killer.2.0.rb lib/RubberDuck.rb lib/Ente.rb
+
+== Deveoping Your Robot for the TCS Match
+
+First, clone this repository. 
+
+Robots live in the lib directory, so create your robot there and name it whatever you like.
+
+When your bot is working, commit and push it to the origin repository.
+
+There are several bots already in the lib directory. Some of them are good, some are bad (intentionally and unitentionally) so be careful which ones you 'borrow' from when you build you own robot. Best to use google and get some context along with the code.
