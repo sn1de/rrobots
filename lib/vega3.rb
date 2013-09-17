@@ -259,23 +259,24 @@ class Vega3
 
 		if is_near_border? or @hit #or @time % UPDATE_TURN_TIME == 0
 			
-			if @centroid_x == 0 and @centroid_y == 0
-				@centroid_x = @current_min_x
-				@centroid_y = @current_min_y
-			end
+			# if @centroid_x == 0 and @centroid_y == 0
+			# 	@centroid_x = @current_min_x
+			# 	@centroid_y = @current_min_y
+			# end
 
-			puts "#{@centroid_x}, #{@centroid_y}"
+			# puts "#{@centroid_x}, #{@centroid_y}"
 
-			vert_delta = @centroid_y - @field_center_y
-			horz_delta = @centroid_x - @field_center_x 
-			if vert_delta.abs < horz_delta.abs
-				@current_turn = vert_delta < 0 ? SOUTH : NORTH
-			else
-				@current_turn = horz_delta < 0 ? EAST : WEST
-			end
+			# vert_delta = @centroid_y - @field_center_y
+			# horz_delta = @centroid_x - @field_center_x 
+			# if vert_delta.abs < horz_delta.abs
+			# 	@current_turn = vert_delta < 0 ? SOUTH : NORTH
+			# else
+			# 	@current_turn = horz_delta < 0 ? EAST : WEST
+			# end
 
-			@centroid_x = 0
-			@centroid_y = 0
+			# @centroid_x = 0
+			# @centroid_y = 0
+			make_turn()
 
 		end
 
