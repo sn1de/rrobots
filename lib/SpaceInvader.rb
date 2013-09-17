@@ -35,7 +35,7 @@ class SpaceInvader
 
   def initialize
     @action_queue = [
-      :head_down
+      :roam
     ]
     @next_actions_queue = []
     @current_phase = 0
@@ -164,12 +164,13 @@ class SpaceInvader
     if speed < 8
       accelerate(1)
     else
+      lead = 400
       # check to see if we need to turn around
-      if x < 300 && heading != @due_east
+      if x < lead && heading != @due_east
         t = (heading - @due_east) * -1
         puts "Turning east heading= #{heading} turning=#{t}"
         turn(t)
-      elsif x > (battlefield_width - 300) && heading != @due_west
+      elsif x > (battlefield_width - lead) && heading != @due_west
         if heading == 0 
           t = -10
         else
